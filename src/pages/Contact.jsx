@@ -1,0 +1,132 @@
+import { useState } from 'react';
+import './Page.css';
+
+function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8080/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to submit contact form');
+      }
+      
+      setSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      alert('Failed to send message. Please try again.');
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="page-container">
+        <div className="success-message">
+          <h2>Thank you for contacting us!</h2>
+          <p>We'll get back to you as soon as possible.</p>
+          <button className="btn-primary" onClick={() => setSubmitted(false)}>
+            Send Another Message
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="page-container">
+      <div className="page-header">
+        <h1>Contact Us</h1>
+        <p>Get in touch with our support team</p>
+      </div>
+      <div className="contact-container">
+        <div className="contact-info">
+          <h3>Contact Information</h3>
+          <div className="contact-item">
+            <strong>Phone:</strong>
+            <p>1-800-EASYBANK (1-800-327-9226)</p>
+          </div>
+          <div className="contact-item">
+            <strong>Email:</strong>
+            <p>support@easybank.com</p>
+          </div>
+          <div className="contact-item">
+            <strong>Business Hours:</strong>
+            <p>Monday - Friday: 8:00 AM - 8:00 PM EST<br />
+            Saturday: 9:00 AM - 5:00 PM EST<br />
+            Sunday: Closed</p>
+          </div>
+        </div>
+        <form className="contact-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="subject">Subject</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              rows="5"
+              required
+            />
+          </div>
+          <button type="submit" className="btn-primary">Send Message</button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default Contact;
+
