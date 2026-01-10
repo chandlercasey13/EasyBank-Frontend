@@ -19,12 +19,27 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (email, password, csrfToken) => {
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      // Create HTTP Basic Auth header
+      const credentials = btoa(`${email}:${password}`);
+      const basicAuth = `Basic ${credentials}`;
+
+      const headers = {
+        'Authorization': basicAuth
+      };
+
+      // Add CSRF token to headers if provided
+      // Spring Security expects X-XSRF-TOKEN header
+      if (csrfToken) {
+        headers['X-XSRF-TOKEN'] = csrfToken;
+      }
+
+      const response = await fetch('http://localhost:8080/user', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        headers: headers,
+        credentials: 'include' // Include cookies for CSRF
+        // No body - credentials are in Authorization header
       });
 
       if (!response.ok) {
@@ -68,5 +83,6 @@ export function useAuth() {
   }
   return context;
 }
+
 
 

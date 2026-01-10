@@ -16,7 +16,8 @@ export async function authenticatedFetch(url, options = {}) {
 
   const response = await fetch(url, {
     ...options,
-    headers
+    headers,
+    credentials: 'include' // Include cookies for CSRF token
   });
 
   if (response.status === 401) {
@@ -29,6 +30,7 @@ export async function authenticatedFetch(url, options = {}) {
 
   return response;
 }
+
 
 
 
