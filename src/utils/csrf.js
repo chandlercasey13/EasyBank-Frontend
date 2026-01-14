@@ -43,13 +43,11 @@ export async function fetchCsrfToken() {
         });
         token = getCsrfToken();
       } catch (e) {
-        console.error('Error fetching CSRF token from root:', e);
       }
     }
     
     return token;
   } catch (error) {
-    console.error('Error fetching CSRF token:', error);
     // Fallback to getting from cookie
     return getCsrfToken();
   }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { fetchCsrfToken, getCsrfToken } from '../utils/csrf';
+import { getCsrfToken } from '../utils/csrf';
 import './Page.css';
 
 function Login() {
@@ -11,7 +11,6 @@ function Login() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [csrfToken, setCsrfToken] = useState(null);
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -20,24 +19,6 @@ function Login() {
       navigate('/myAccount');
     }
   }, [isAuthenticated, navigate]);
-
-  // Fetch CSRF token on component mount
-  useEffect(() => {
-    const loadCsrfToken = async () => {
-      // Always try to fetch from backend first to ensure cookie is set
-      let token = await fetchCsrfToken();
-      
-      // If still not found, try to get from cookie
-      if (!token) {
-        token = getCsrfToken();
-      }
-      
-      setCsrfToken(token);
-      console.log('CSRF Token loaded:', token ? 'Found' : 'Not found');
-    };
-
-    loadCsrfToken();
-  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -52,24 +33,10 @@ function Login() {
     setError('');
     setLoading(true);
 
-    // Get CSRF token (from state, or try to fetch fresh)
-    let token = csrfToken || getCsrfToken();
+    // Get CSRF token from cookie if available (will be set by login response)
+    const csrfToken = getCsrfToken();
     
-    // If still no token, try to fetch it
-    if (!token) {
-      token = await fetchCsrfToken();
-      if (token) {
-        setCsrfToken(token);
-      }
-    }
-    
-    if (!token) {
-      setError('Unable to retrieve CSRF token. Please refresh the page.');
-      setLoading(false);
-      return;
-    }
-    
-    const result = await login(formData.email, formData.password, token);
+    const result = await login(formData.email, formData.password, csrfToken);
 
     if (result.success) {
       navigate('/myAccount');

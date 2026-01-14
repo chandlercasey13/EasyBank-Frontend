@@ -8,9 +8,9 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is already logged in (check localStorage)
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
+    // Check if user is already logged in (check sessionStorage for JWT)
+    const token = sessionStorage.getItem('jwt');
+    const userData = sessionStorage.getItem('user');
     
     if (token && userData) {
       setIsAuthenticated(true);
@@ -21,12 +21,8 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password, csrfToken) => {
     try {
-      // Create HTTP Basic Auth header
-      const credentials = btoa(`${email}:${password}`);
-      const basicAuth = `Basic ${credentials}`;
-
       const headers = {
-        'Authorization': basicAuth
+        'Content-Type': 'application/json'
       };
 
       // Add CSRF token to headers if provided
@@ -35,11 +31,14 @@ export function AuthProvider({ children }) {
         headers['X-XSRF-TOKEN'] = csrfToken;
       }
 
-      const response = await fetch('http://localhost:8080/user', {
+      const response = await fetch('http://localhost:8080/apiLogin', {
         method: 'POST',
         headers: headers,
-        credentials: 'include' // Include cookies for CSRF
-        // No body - credentials are in Authorization header
+        credentials: 'include', // Include cookies for CSRF
+        body: JSON.stringify({
+          username: email,
+          password: password
+        })
       });
 
       if (!response.ok) {
@@ -48,23 +47,28 @@ export function AuthProvider({ children }) {
 
       const data = await response.json();
       
-      // Store token and user data
-      localStorage.setItem('token', data.token || 'authenticated');
-      localStorage.setItem('user', JSON.stringify(data.user || { email }));
+      // Store JWT in sessionStorage and user data
+      const jwt = data.jwtToken;
+      if (jwt) {
+        // Remove 'Bearer ' prefix if present
+        const jwtWithoutBearer = jwt.startsWith('Bearer ') ? jwt.substring(7) : jwt;
+        sessionStorage.setItem('jwt', jwtWithoutBearer);
+        console.log('JWT set in sessionStorage:', jwtWithoutBearer);
+      }
+      sessionStorage.setItem('user', JSON.stringify(data.user || { email }));
       
       setIsAuthenticated(true);
       setUser(data.user || { email });
       
       return { success: true };
     } catch (error) {
-      console.error('Login error:', error);
       return { success: false, error: error.message };
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('user');
     setIsAuthenticated(false);
     setUser(null);
   };

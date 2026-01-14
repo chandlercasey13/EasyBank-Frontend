@@ -40,7 +40,7 @@ function App() {
                     <MyBalance />
                   </ProtectedRoute>
                 } 
-              />
+              />~~
               <Route 
                 path="/myLoans" 
                 element={
@@ -74,3 +74,4 @@ function App() {
 }
 
 export default App;
+~``

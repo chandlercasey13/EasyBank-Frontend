@@ -19,7 +19,6 @@ function MyAccount() {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching account data:', error);
         setLoading(false);
       });
   }, []);

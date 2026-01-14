@@ -30,7 +30,7 @@ function Navbar() {
                   to="/myAccount" 
                   className={isActive('/myAccount') ? 'active' : ''}
                 >
-                  My Account
+                  Account
                 </Link>
               </li>
               <li>
@@ -38,7 +38,7 @@ function Navbar() {
                   to="/myBalance" 
                   className={isActive('/myBalance') ? 'active' : ''}
                 >
-                  My Balance
+                  Balance
                 </Link>
               </li>
               <li>
@@ -46,7 +46,7 @@ function Navbar() {
                   to="/myLoans" 
                   className={isActive('/myLoans') ? 'active' : ''}
                 >
-                  My Loans
+                  Loans
                 </Link>
               </li>
               <li>
@@ -54,7 +54,7 @@ function Navbar() {
                   to="/myCards" 
                   className={isActive('/myCards') ? 'active' : ''}
                 >
-                  My Cards
+                  Cards
                 </Link>
               </li>
               <li>

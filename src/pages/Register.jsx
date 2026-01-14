@@ -74,7 +74,6 @@ function Register() {
       
       setSubmitted(true);
     } catch (error) {
-      console.error('Error registering:', error);
       alert('Registration failed. Please try again.');
     }
   };

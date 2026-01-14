@@ -42,7 +42,6 @@ function Contact() {
       setSubmitted(true);
       setFormData({ contactName: '', contactEmail: '', subject: '', message: '' });
     } catch (error) {
-      console.error('Error submitting contact form:', error);
       alert('Failed to send message. Please try again.');
     }
   };

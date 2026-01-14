@@ -1,9 +1,12 @@
 // Helper function to get auth headers
 export function getAuthHeaders() {
-  const token = localStorage.getItem('token');
+  const jwt = sessionStorage.getItem('jwt');
+  if (jwt) {
+    console.log('JWT sent in header:', jwt);
+  }
   return {
     'Content-Type': 'application/json',
-    ...(token && { 'Authorization': `Bearer ${token}` })
+    ...(jwt && { 'Authorization': jwt })
   };
 }
 
@@ -22,8 +25,8 @@ export async function authenticatedFetch(url, options = {}) {
 
   if (response.status === 401) {
     // Unauthorized - clear auth and redirect to login
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('user');
     window.location.href = '/login';
     throw new Error('Unauthorized');
   }

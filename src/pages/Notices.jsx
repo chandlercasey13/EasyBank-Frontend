@@ -19,7 +19,6 @@ function Notices() {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching notices:', error);
         setLoading(false);
       });
   }, []);

@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { authenticatedFetch } from '../utils/api';
 import './Page.css';
 
 function MyBalance() {
   const [balanceData, setBalanceData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    authenticatedFetch('http://localhost:8080/myBalance')
+    if (!user) return;
+
+    // Get id from user object (could be id, customer_id, or customerId)
+    // Default to 12 if not found
+    const id = user.id || user.customer_id || user.customerId || 12;
+
+    authenticatedFetch(`http://localhost:8080/myBalance?id=${id}`)
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch balance data');
@@ -19,10 +27,9 @@ function MyBalance() {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching balance data:', error);
         setLoading(false);
       });
-  }, []);
+  }, [user]);
 
   if (loading) {
     return <div className="page-container"><div className="loading">Loading...</div></div>;
