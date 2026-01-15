@@ -252,8 +252,8 @@ function MyAccount() {
             return transactionAmount !== 0;
           });
         
-        // Only collapse if there are more than 5 transactions (likely to cause overflow)
-        const TRANSACTION_OVERFLOW_THRESHOLD = 5;
+        // Only show a small number of transactions inline to avoid vertical overflow
+        const TRANSACTION_OVERFLOW_THRESHOLD = 4;
         const shouldCollapse = sortedTransactions.length > TRANSACTION_OVERFLOW_THRESHOLD;
         const displayedTransactions = shouldCollapse 
           ? sortedTransactions.slice(0, TRANSACTION_OVERFLOW_THRESHOLD)
@@ -271,19 +271,43 @@ function MyAccount() {
             : currentBalance;
           const isDebit = currentBalance < previousBalance;
           const transactionAmount = Math.abs(currentBalance - previousBalance);
+          const cardNumber =
+            (transaction.card && (transaction.card.cardNumber || transaction.card.card_number)) ||
+            transaction.cardNumber ||
+            transaction.card_number ||
+            null;
           
           return (
             <div key={originalIndex} className="transaction-card">
               <div className="transaction-header">
-                <span className="transaction-amount" style={{ 
-                  color: isDebit ? '#dc3545' : '#28a745'
-                }}>
+                <span
+                  className="transaction-amount"
+                  style={{
+                    color: isDebit ? '#dc3545' : '#28a745',
+                  }}
+                >
                   {isDebit ? '-' : '+'}
-                  ${transactionAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  $
+                  {transactionAmount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </span>
-                <span className="transaction-date">
-                  {transaction.transactionDt || transaction.transaction_dt ? new Date(transaction.transactionDt || transaction.transaction_dt).toLocaleDateString() : 'N/A'}
-                </span>
+                <div className="transaction-header-right">
+                  {cardNumber && (
+                    <div className="transaction-card-number">
+                      Card Number: {cardNumber}
+                    </div>
+                  )}
+                  <span className="transaction-date">
+                    {transaction.transactionDt || transaction.transaction_dt
+                      ? new Date(
+                          transaction.transactionDt ||
+                            transaction.transaction_dt
+                        ).toLocaleDateString()
+                      : 'N/A'}
+                  </span>
+                </div>
               </div>
               {(transaction.transactionSummary || transaction.transaction_summary) && (
                 <div className="transaction-summary">

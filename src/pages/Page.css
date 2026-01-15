@@ -1,9 +1,9 @@
 .page-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.75rem 2rem;
-  min-height: calc(100vh - 200px);
-  overflow-y: auto;
+  padding: 0.5rem 2rem 0.75rem 2rem;
+  min-height: calc(100vh - 220px);
+  overflow-y: visible;
 }
 
 .page-header {
@@ -20,6 +20,20 @@
 .page-header p {
   color: #666;
   font-size: 0.85rem;
+}
+
+.page-notice {
+  margin: 0.5rem auto 0.75rem auto;
+  max-width: 800px;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.page-notice.success {
+  background: #e6f4ea;
+  border: 1px solid #b7e0c2;
+  color: #216e39;
 }
 
 /* Greeting Section */
@@ -139,8 +153,8 @@
 
 /* Transactions Section */
 .transactions-section {
-  margin-top: 0.75rem;
-  margin-bottom: 0.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.1rem;
 }
 
 .transactions-header {
@@ -177,7 +191,7 @@
 .transactions-list {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.3rem;
   max-height: none;
   overflow: visible;
 }
@@ -185,7 +199,7 @@
 .transaction-card {
   background: #ffffff;
   border-radius: 8px;
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 0.9rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid #e8e8e8;
   border-left: 3px solid #2a5298;
@@ -208,6 +222,19 @@
   font-size: 1.1rem;
 }
 
+.transaction-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+}
+
+.transaction-card-number {
+  font-size: 0.8rem;
+  color: #555;
+  font-weight: 600;
+}
+
 .transaction-date {
   color: #666;
   font-size: 0.9rem;
@@ -219,6 +246,17 @@
   font-weight: 500;
   margin-top: 0.35rem;
   margin-bottom: 0.2rem;
+}
+
+.transaction-meta {
+  font-size: 0.78rem;
+  color: #777;
+  margin-bottom: 0.2rem;
+}
+
+.transaction-card-id {
+  font-weight: 600;
+  color: #555;
 }
 
 .transaction-balance {
@@ -303,6 +341,90 @@
   border-left: 1px solid #e8e8e8;
 }
 
+.loan-summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-source-section {
+  margin-top: 0.5rem;
+}
+
+.payment-source-section h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  color: #1e3c72;
+}
+
+.payment-source-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.payment-source-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.payment-source-option input {
+  margin-top: 0.15rem;
+}
+
+.payment-source-option.selected {
+  border-color: #1e3c72;
+  background: rgba(30, 60, 114, 0.04);
+}
+
+.payment-source-label .source-title {
+  display: block;
+  font-weight: 600;
+  color: #1e3c72;
+  font-size: 0.9rem;
+}
+
+.payment-source-label .source-subtitle {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.card-select-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.card-select-row .input {
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.helper-text {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0.15rem 0 0 0;
+}
+
+.modal-footer {
+  padding: 1rem 2rem 1.4rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-top: 1px solid #f0f0f0;
+}
+
 /* Loan Cards */
 .loans-list {
   display: flex;
@@ -316,6 +438,9 @@
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-left: 4px solid #2a5298;
+  aspect-ratio: 16 / 4;
+  display: flex;
+  flex-direction: column;
 }
 
 .loan-header {
@@ -346,6 +471,13 @@
   margin-bottom: 1.5rem;
 }
 
+.loan-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-start;
+}
+
 .loan-detail-item {
   display: flex;
   flex-direction: column;
@@ -370,10 +502,11 @@
 
 /* Card Display */
 .cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-bottom: 1rem;
+  align-items: center;
 }
 
 .card-display {
@@ -391,9 +524,9 @@
 .card-front {
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   border-radius: 15px;
-  padding: 2rem 2.5rem 2rem 2.5rem;
+  padding: 1.6rem 2.3rem 1.6rem 2.3rem;
   color: white;
-  width: min(80vw, 600px);
+  width: min(80vw, 500px);
   max-width: 100%;
   aspect-ratio: 16 / 10; /* Approximate credit card width:height */
   display: flex;
@@ -434,6 +567,20 @@
   margin-top: 2.3rem;
   font-size: 0.95rem;
   opacity: 0.96;
+}
+
+.cardholder-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.3rem;
+}
+
+.card-account-tag {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  margin-left: 0.5rem;
 }
 
 .card-logo {
@@ -483,7 +630,12 @@
 
 .card-actions {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
+}
+
+.card-actions .btn-secondary {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
 }
 
 /* Notices */
@@ -857,7 +1009,7 @@
 
 .page-actions {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 1.25rem;
 }
 
 /* Empty State */

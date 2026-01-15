@@ -11,11 +11,7 @@ function MyBalance() {
   useEffect(() => {
     if (!user) return;
 
-    // Get id from user object (could be id, customer_id, or customerId)
-    // Default to 12 if not found
-    const id = user.id || user.customer_id || user.customerId || 12;
-
-    authenticatedFetch(`http://localhost:8080/myBalance?id=${id}`)
+    authenticatedFetch('http://localhost:8080/myBalance')
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch balance data');
