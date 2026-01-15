@@ -11,6 +11,7 @@ function Register() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -47,6 +48,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError('');
     
     if (!validate()) {
       return;
@@ -69,12 +71,14 @@ function Register() {
       });
       
       if (!response.ok) {
-        throw new Error('Failed to register');
+        // Get error message from response (string response entity)
+        const errorMessage = await response.text();
+        throw new Error(errorMessage || 'Registration failed. Please try again.');
       }
       
       setSubmitted(true);
     } catch (error) {
-      alert('Registration failed. Please try again.');
+      setSubmitError(error.message || 'Registration failed. Please try again.');
     }
   };
 
@@ -96,6 +100,11 @@ function Register() {
         <h1>Register</h1>
         <p>Create a new account with EasyBank</p>
       </div>
+      {submitError && (
+        <div className="error-message" style={{ maxWidth: '800px', margin: '0 auto 2rem' }}>
+          {submitError}
+        </div>
+      )}
       <form className="register-form" onSubmit={handleSubmit}>
         <div className="form-section">
           <h3>Create Your Account</h3>

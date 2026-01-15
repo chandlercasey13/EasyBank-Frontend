@@ -7,6 +7,26 @@ function MyCards() {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const [blockedCards, setBlockedCards] = useState({});
+
+  const userName =
+    (user && (user.name || user.fullName || user.email)) || 'Cardholder';
+
+  const expiryDate = (() => {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear() + 2;
+    const mm = month.toString().padStart(2, '0');
+    const yy = (year % 100).toString().padStart(2, '0');
+    return `${mm}/${yy}`;
+  })();
+
+  const toggleBlockCard = (cardId) => {
+    setBlockedCards(prev => ({
+      ...prev,
+      [cardId]: !prev[cardId],
+    }));
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -38,24 +58,41 @@ function MyCards() {
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>My Cards</h1>
+        <h1>Cards</h1>
         <p>Manage your debit and credit cards</p>
       </div>
       <div className="cards-grid">
         {cards.map(card => (
           <div key={card.id} className="card-display">
-            <div className={`card-front ${card.cardType.toLowerCase()}`}>
-              <div className="card-chip"></div>
-              <div className="card-number">{card.cardNumber}</div>
-              <div className="card-info">
-                <div className="card-name">{card.cardholderName}</div>
-                <div className="card-expiry">{card.expiryDate}</div>
+            <div className="card-front-wrapper">
+              <div className={`card-front ${card.cardType.toLowerCase()} ${blockedCards[card.id] ? 'blocked' : ''}`}>
+                <div className="card-logo">EasyBank</div>
+                <div className="card-chip"></div>
+                <div className="cardholder-name">{userName}</div>
+                <div className="card-number">{card.cardNumber}</div>
+                <div className="card-expiry">{expiryDate}</div>
+                <div className="card-type-badge">{card.cardType}</div>
               </div>
-              <div className="card-type-badge">{card.cardType}</div>
+              {blockedCards[card.id] && (
+                <div className="card-block-overlay">
+                  <span>Blocked</span>
+                </div>
+              )}
             </div>
             <div className="card-actions">
-              <button className="btn-secondary">Block Card</button>
-              <button className="btn-secondary">View Transactions</button>
+              <button
+                className="btn-secondary"
+                onClick={() => toggleBlockCard(card.id)}
+              >
+                {blockedCards[card.id] ? 'Unblock Card' : 'Block Card'}
+              </button>
+              <button
+                className="btn-secondary"
+                disabled={!!blockedCards[card.id]}
+                style={blockedCards[card.id] ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
+              >
+                View Transactions
+              </button>
             </div>
           </div>
         ))}

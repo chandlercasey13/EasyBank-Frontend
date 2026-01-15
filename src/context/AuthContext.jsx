@@ -53,7 +53,6 @@ export function AuthProvider({ children }) {
         // Remove 'Bearer ' prefix if present
         const jwtWithoutBearer = jwt.startsWith('Bearer ') ? jwt.substring(7) : jwt;
         sessionStorage.setItem('jwt', jwtWithoutBearer);
-        console.log('JWT set in sessionStorage:', jwtWithoutBearer);
       }
       sessionStorage.setItem('user', JSON.stringify(data.user || { email }));
       

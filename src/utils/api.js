@@ -1,9 +1,6 @@
 // Helper function to get auth headers
 export function getAuthHeaders() {
   const jwt = sessionStorage.getItem('jwt');
-  if (jwt) {
-    console.log('JWT sent in header:', jwt);
-  }
   return {
     'Content-Type': 'application/json',
     ...(jwt && { 'Authorization': jwt })

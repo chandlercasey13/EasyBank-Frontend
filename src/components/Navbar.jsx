@@ -35,14 +35,6 @@ function Navbar() {
               </li>
               <li>
                 <Link 
-                  to="/myBalance" 
-                  className={isActive('/myBalance') ? 'active' : ''}
-                >
-                  Balance
-                </Link>
-              </li>
-              <li>
-                <Link 
                   to="/myLoans" 
                   className={isActive('/myLoans') ? 'active' : ''}
                 >

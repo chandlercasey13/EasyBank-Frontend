@@ -15,7 +15,9 @@ function Notices() {
         return res.json();
       })
       .then(data => {
-        setNotices(data);
+        // Ensure data is an array (list of notices)
+        const noticesList = Array.isArray(data) ? data : [];
+        setNotices(noticesList);
         setLoading(false);
       })
       .catch(error => {
@@ -40,16 +42,18 @@ function Notices() {
           </div>
         ) : (
           notices.map(notice => (
-            <div key={notice.id} className={`notice-card priority-${notice.priority}`}>
+            <div key={notice.noticeId || notice.id} className="notice-card">
               <div className="notice-header">
-                <h3>{notice.title}</h3>
-                <span className={`priority-badge priority-${notice.priority}`}>
-                  {notice.priority.toUpperCase()}
-                </span>
+                <h3>{notice.noticeSummary || notice.notice_summary}</h3>
               </div>
-              <p className="notice-message">{notice.message}</p>
+              <p className="notice-message">{notice.noticeDetails || notice.notice_details}</p>
               <div className="notice-footer">
-                <span className="notice-date">Posted: {notice.date}</span>
+                <span className="notice-date">
+                  Start Date: {notice.noticBegDt || notice.notic_beg_dt ? new Date(notice.noticBegDt || notice.notic_beg_dt).toLocaleDateString() : 'N/A'}
+                  {(notice.noticEndDt || notice.notic_end_dt) && (
+                    <> | End Date: {new Date(notice.noticEndDt || notice.notic_end_dt).toLocaleDateString()}</>
+                  )}
+                </span>
               </div>
             </div>
           ))

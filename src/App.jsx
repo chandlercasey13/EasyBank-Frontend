@@ -5,7 +5,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import MyAccount from './pages/MyAccount';
-import MyBalance from './pages/MyBalance';
 import MyLoans from './pages/MyLoans';
 import MyCards from './pages/MyCards';
 import Notices from './pages/Notices';
@@ -33,14 +32,6 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
-              <Route 
-                path="/myBalance" 
-                element={
-                  <ProtectedRoute>
-                    <MyBalance />
-                  </ProtectedRoute>
-                } 
-              />~~
               <Route 
                 path="/myLoans" 
                 element={
