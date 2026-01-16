@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getCsrfToken } from '../utils/csrf';
 import './Page.css';
 
 function Login() {
@@ -32,11 +31,8 @@ function Login() {
     e.preventDefault();
     setError('');
     setLoading(true);
-
-    // Get CSRF token from cookie if available (will be set by login response)
-    const csrfToken = getCsrfToken();
     
-    const result = await login(formData.email, formData.password, csrfToken);
+    const result = await login(formData.email, formData.password);
 
     if (result.success) {
       navigate('/myAccount');

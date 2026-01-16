@@ -19,22 +19,16 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  const login = async (email, password, csrfToken) => {
+  const login = async (email, password) => {
     try {
       const headers = {
         'Content-Type': 'application/json'
       };
 
-      // Add CSRF token to headers if provided
-      // Spring Security expects X-XSRF-TOKEN header
-      if (csrfToken) {
-        headers['X-XSRF-TOKEN'] = csrfToken;
-      }
-
       const response = await fetch('http://localhost:8080/apiLogin', {
         method: 'POST',
         headers: headers,
-        credentials: 'include', // Include cookies for CSRF
+        credentials: 'include',
         body: JSON.stringify({
           username: email,
           password: password
