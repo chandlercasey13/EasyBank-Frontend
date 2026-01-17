@@ -59,6 +59,17 @@ function Login() {
           )}
 
           <form className="login-form" onSubmit={handleSubmit}>
+            <div style={{ 
+              marginBottom: '1rem', 
+              padding: '0.75rem', 
+              backgroundColor: '#f0f7ff', 
+              borderRadius: '6px', 
+              border: '1px solid #b3d9ff',
+              fontSize: '0.85rem',
+              color: '#1e3c72'
+            }}>
+              <strong>Test Account:</strong> test@example.com / 1234
+            </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input

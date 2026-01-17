@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import './Page.css';
 
 function Contact() {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     contactName: '',
     contactEmail: '',
@@ -9,6 +11,18 @@ function Contact() {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const userName = user.name || user.fullName || '';
+      const userEmail = user.email || '';
+      setFormData(prev => ({
+        ...prev,
+        contactName: userName,
+        contactEmail: userEmail
+      }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     setFormData({
@@ -93,6 +107,7 @@ function Contact() {
               name="contactName"
               value={formData.contactName}
               onChange={handleChange}
+              disabled={!!user}
               required
             />
           </div>
@@ -104,6 +119,7 @@ function Contact() {
               name="contactEmail"
               value={formData.contactEmail}
               onChange={handleChange}
+              disabled={!!user}
               required
             />
           </div>
