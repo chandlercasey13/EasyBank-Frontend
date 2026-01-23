@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { apiUrl } from '../utils/api';
 
 const AuthContext = createContext(null);
 
@@ -25,7 +26,7 @@ export function AuthProvider({ children }) {
         'Content-Type': 'application/json'
       };
 
-      const response = await fetch('http://localhost:8080/apiLogin', {
+      const response = await fetch(apiUrl('apiLogin'), {
         method: 'POST',
         headers: headers,
         credentials: 'include',

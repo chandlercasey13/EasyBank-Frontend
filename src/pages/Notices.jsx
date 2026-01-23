@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { authenticatedFetch } from '../utils/api';
+import { authenticatedFetch, apiUrl } from '../utils/api';
 import './Page.css';
 
 function Notices() {
@@ -7,7 +7,7 @@ function Notices() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    authenticatedFetch('http://localhost:8080/notices')
+    authenticatedFetch(apiUrl('notices'))
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch notices');

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { authenticatedFetch } from '../utils/api';
+import { authenticatedFetch, apiUrl } from '../utils/api';
 import './Page.css';
 
 function MyLoans() {
@@ -18,7 +18,7 @@ function MyLoans() {
   useEffect(() => {
     if (!user) return;
 
-    authenticatedFetch('http://localhost:8080/myLoans')
+    authenticatedFetch(apiUrl('myLoans'))
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch loans data');
@@ -42,7 +42,7 @@ function MyLoans() {
 
     // Lazy-load cards for payment source selection
     if (!cardsLoaded && user) {
-      authenticatedFetch('http://localhost:8080/myCards')
+      authenticatedFetch(apiUrl('myCards'))
         .then(res => {
           if (!res.ok) {
             throw new Error('Failed to fetch cards data');

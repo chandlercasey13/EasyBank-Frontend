@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { authenticatedFetch } from '../utils/api';
+import { authenticatedFetch, apiUrl } from '../utils/api';
 import './Page.css';
 
 function MyCards() {
@@ -44,7 +44,7 @@ function MyCards() {
   useEffect(() => {
     if (!user) return;
 
-    authenticatedFetch('http://localhost:8080/myCards')
+    authenticatedFetch(apiUrl('myCards'))
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch cards data');
@@ -59,7 +59,7 @@ function MyCards() {
         setLoading(false);
       });
 
-    authenticatedFetch('http://localhost:8080/myBalance')
+    authenticatedFetch(apiUrl('myBalance'))
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch transactions data');
@@ -136,7 +136,7 @@ function MyCards() {
           setLoadingAccounts(true);
           setSelectedAccount(null);
           // Fetch accounts when opening modal
-          authenticatedFetch('http://localhost:8080/myAccount')
+          authenticatedFetch(apiUrl('myAccount'))
             .then(res => {
               if (!res.ok) {
                 setAccounts([]);
@@ -442,7 +442,7 @@ function MyCards() {
                   
                   setCreatingCard(true);
                   try {
-                    const response = await authenticatedFetch('http://localhost:8080/myCards', {
+                    const response = await authenticatedFetch(apiUrl('myCards'), {
                       method: 'POST',
                       body: JSON.stringify({
                         cardType: cardType,
@@ -496,7 +496,7 @@ function MyCards() {
                   setDeletingCard(true);
                   try {
                     const cardId = showDeleteCardModal.cardId || showDeleteCardModal.id || showDeleteCardModal.cardNumber || showDeleteCardModal.card_number;
-                    const response = await authenticatedFetch(`http://localhost:8080/myCards?cardId=${cardId}`, {
+                    const response = await authenticatedFetch(apiUrl(`myCards?cardId=${cardId}`), {
                       method: 'DELETE'
                     });
                     if (response.ok) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { authenticatedFetch } from '../utils/api';
+import { authenticatedFetch, apiUrl } from '../utils/api';
 import './Page.css';
 
 function MyAccount() {
@@ -39,7 +39,7 @@ function MyAccount() {
     };
 
     // Fetch accounts
-    authenticatedFetch('http://localhost:8080/myAccount')
+    authenticatedFetch(apiUrl('myAccount'))
       .then(res => {
         if (!res.ok) {
           // If 404 or other error, no accounts exist
@@ -73,7 +73,7 @@ function MyAccount() {
 
     // Fetch balance if user is available
     if (user) {
-      authenticatedFetch(`http://localhost:8080/myBalance`)
+      authenticatedFetch(apiUrl('myBalance'))
         .then(res => {
           if (!res.ok) {
             throw new Error('Failed to fetch balance data');
@@ -265,7 +265,7 @@ function MyAccount() {
                           setShowLinkCardModal(account);
                           setLoadingCards(true);
                           try {
-                            const response = await authenticatedFetch('http://localhost:8080/myCards');
+                            const response = await authenticatedFetch(apiUrl('myCards'));
                             if (response.ok) {
                               const cards = await response.json();
                               const accountType = account.accountType || account.account_type || '';
@@ -457,7 +457,7 @@ function MyAccount() {
                   setDeletingAccount(true);
                   try {
                     const accountNumber = showDeleteModal.accountNumber || showDeleteModal.account_number;
-                    const response = await authenticatedFetch(`http://localhost:8080/myAccount?accountNumber=${accountNumber}`, {
+                    const response = await authenticatedFetch(apiUrl(`myAccount?accountNumber=${accountNumber}`), {
                       method: 'DELETE'
                     });
                     if (response.ok) {
@@ -695,7 +695,7 @@ function MyAccount() {
                 onClick={async () => {
                   setCreatingAccount(true);
                   try {
-                    const response = await authenticatedFetch('http://localhost:8080/myAccount', {
+                    const response = await authenticatedFetch(apiUrl('myAccount'), {
                       method: 'POST',
                       body: JSON.stringify({ accountType })
                     });

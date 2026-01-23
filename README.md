@@ -15,3 +15,15 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 # EasyBank-Frontend
+
+## Environment Variables
+
+This project uses environment variables for configuration. Create a `.env` file in the root directory with the following:
+
+```
+VITE_API_URL=http://localhost:8080
+```
+
+**Note:** In Vite, environment variables must be prefixed with `VITE_` to be exposed to the client-side code.
+
+The API URL defaults to `http://localhost:8080` if the environment variable is not set.

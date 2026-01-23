@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { authenticatedFetch } from '../utils/api';
+import { authenticatedFetch, apiUrl } from '../utils/api';
 import './Page.css';
 
 function MyBalance() {
@@ -11,7 +11,7 @@ function MyBalance() {
   useEffect(() => {
     if (!user) return;
 
-    authenticatedFetch('http://localhost:8080/myBalance')
+    authenticatedFetch(apiUrl('myBalance'))
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch balance data');
