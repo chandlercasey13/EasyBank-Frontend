@@ -1462,8 +1462,8 @@
     max-height: 100svh !important;
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
-    padding-top: calc(4rem + env(safe-area-inset-top)) !important;
-    padding-bottom: calc(0rem + env(safe-area-inset-bottom)) !important;
+    padding-top: calc(1.5rem + env(safe-area-inset-top)) !important;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom)) !important;
     justify-content: flex-start !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
