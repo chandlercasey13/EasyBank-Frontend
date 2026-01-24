@@ -8,7 +8,7 @@ function Home() {
   return (
     <div style={{ width: '100%', margin: 0, padding: 0 }}>
       {/* Hero Section */}
-      <div style={{
+      <div className="home-hero-section" style={{
         background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.85) 50%, rgba(15, 52, 96, 0.85) 100%)',
         backgroundImage: 'url("https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"), linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.85) 50%, rgba(15, 52, 96, 0.85) 100%)',
         backgroundSize: 'cover',
